@@ -3,118 +3,114 @@ using UnityEngine;
 
 public class PlayerVault : MonoBehaviour
 {
-    [Header("Vaulting")]
-    public LayerMask whatIsObstacle;
-    private float vaultTimer;
-    private float vaultDuration = 1f; 
-    private Vector3 vaultStartPos;
-    private Vector3 vaultEndPos;
-    private bool isVaulting = false;
-    private float halfVaultDuration;
-    
     // Event to notify when vaulting ends
-    public event Action OnVaultEnd;
+    public event Action VaultEnded;
+
+    [Header("Vaulting")]
+    [SerializeField] private LayerMask _obstacleLayerMask;
+    private float _vaultTimer;
+    private float _vaultDuration = 1f;
+    private Vector3 _vaultStartPosition;
+    private Vector3 _vaultEndPosition;
+    private bool _isVaulting = false;
+    private float _halfVaultDuration;
 
     [Space(10)]
     [Header("Detection")]
-    public float obstacleCheckDistance;
-    public float vaultHeight;
-    private RaycastHit obstacleHit;
-    private bool obstacleFront;
+    [SerializeField] private float _obstacleCheckDistance;
+    private RaycastHit _obstacleHit;
+    private bool _isObstacleInFront;
 
     [Space(10)]
     [Header("References")]
-    public Transform orientation;
-    private Rigidbody rb;
-    private Animator animator;
-    private Camera camera;
+    [SerializeField] private Transform _orientation;
+    private Rigidbody _rigidbody;
+    private Animator _animator;
+    private Camera _camera;
 
     [Space(10)]
     [Header("Camera")]
-    public float cameraTiltAmount = 10f;
-    private Quaternion initialCameraRotation;
-    private Quaternion targetTiltRotation;
-    private float cameraTiltTimer;
+    [SerializeField] private float _cameraTiltAmount = 10f;
+    private Quaternion _initialCameraRotation;
+    private Quaternion _targetTiltRotation;
+    private float _cameraTiltTimer;
 
-    void Start()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
-        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _animator = GetComponentInChildren<Animator>();
+        _camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
-    void Update()
+    private void Update()
     {
         CheckForObstacle();
 
         // Camera tilt while vaulting
-        if (isVaulting)
+        if (_isVaulting)
         {
-            vaultTimer += Time.deltaTime;
+            _vaultTimer += Time.deltaTime;
 
             // Manage camera tilt separately
-            cameraTiltTimer += Time.deltaTime;
+            _cameraTiltTimer += Time.deltaTime;
 
-            if (vaultTimer <= halfVaultDuration)
+            if (_vaultTimer <= _halfVaultDuration)
             {
                 // First half of the vault: tilt to maximum rotation
-                float t = cameraTiltTimer / (halfVaultDuration / 2); // Normalize for tilt
-                camera.transform.localRotation = Quaternion.Slerp(initialCameraRotation, targetTiltRotation, t);
+                float t = _cameraTiltTimer / (_halfVaultDuration / 2); // Normalize for tilt
+                _camera.transform.localRotation = Quaternion.Slerp(_initialCameraRotation, _targetTiltRotation, t);
             }
-            else if (vaultTimer <= vaultDuration)
+            else if (_vaultTimer <= _vaultDuration)
             {
                 // Second half of the vault: tilt back to initial rotation
-                float t = (cameraTiltTimer - (halfVaultDuration / 2)) / (halfVaultDuration / 2); // Normalize for tilt
-                camera.transform.localRotation = Quaternion.Slerp(targetTiltRotation, initialCameraRotation, t);
+                float t = (_cameraTiltTimer - (_halfVaultDuration / 2)) / (_halfVaultDuration / 2); // Normalize for tilt
+                _camera.transform.localRotation = Quaternion.Slerp(_targetTiltRotation, _initialCameraRotation, t);
             }
         }
     }
 
-    void CheckForObstacle()
+    private void CheckForObstacle()
     {
-        obstacleFront = Physics.Raycast(transform.position, orientation.forward, out obstacleHit, obstacleCheckDistance, whatIsObstacle);
-
-        // Color rayColor = obstacleFront ? Color.red : Color.green;
-        // Debug.DrawRay(transform.position, orientation.forward * obstacleCheckDistance, rayColor);
+        _isObstacleInFront = Physics.Raycast(transform.position, _orientation.forward, out _obstacleHit, _obstacleCheckDistance, _obstacleLayerMask);
     }
 
-    public bool VaultingStateMachine(float verticalInput, bool isJumping, bool isGrounded)
+    public bool UpdateVaultingState(float verticalInput, bool isJumping, bool isGrounded)
     {
-        if (isJumping && obstacleFront && verticalInput > 0 && isGrounded)
+        if (isJumping && _isObstacleInFront && verticalInput > 0 && isGrounded)
         {
-            if (!isVaulting)
+            if (!_isVaulting)
             {
                 StartVault();
             }
         }
-        return isVaulting;
+        return _isVaulting;
     }
 
     public void StartVault()
     {
-        isVaulting = true;
-        vaultStartPos = transform.position;
-        Vector3 behindObstacle = obstacleHit.point - obstacleHit.normal * 3f;
-        vaultEndPos = behindObstacle;
-        vaultTimer = 0;
-        cameraTiltTimer = 0;
+        _isVaulting = true;
+        _vaultStartPosition = transform.position;
+        Vector3 behindObstacle = _obstacleHit.point - _obstacleHit.normal * 3f;
+        _vaultEndPosition = behindObstacle;
+        _vaultTimer = 0;
+        _cameraTiltTimer = 0;
 
-        initialCameraRotation = camera.transform.localRotation;
-        targetTiltRotation = initialCameraRotation * Quaternion.Euler(0, 0, cameraTiltAmount);
-        halfVaultDuration = vaultDuration / 2;
+        _initialCameraRotation = _camera.transform.localRotation;
+        _targetTiltRotation = _initialCameraRotation * Quaternion.Euler(0, 0, _cameraTiltAmount);
+        _halfVaultDuration = _vaultDuration / 2;
 
-        if (animator != null)
+        if (_animator != null)
         {
-            animator.Play("PlayerVaultAnimation");
+            _animator.Play("PlayerVaultAnimation");
         }
     }
 
-    public void VaultingAction()
+    public void PerformVaultAction()
     {
-        vaultTimer += Time.deltaTime / vaultDuration;
-        transform.position = Vector3.Lerp(vaultStartPos, vaultEndPos, vaultTimer);
+        _vaultTimer += Time.deltaTime / _vaultDuration;
+        transform.position = Vector3.Lerp(_vaultStartPosition, _vaultEndPosition, _vaultTimer);
 
-        if (vaultTimer >= 1)
+        if (_vaultTimer >= 1)
         {
             StopVault();
         }
@@ -122,13 +118,13 @@ public class PlayerVault : MonoBehaviour
 
     public void StopVault()
     {
-        isVaulting = false;
-        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        _isVaulting = false;
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z);
 
         // Reset camera rotation to ensure it's back to original rotation after vault
-        camera.transform.localRotation = initialCameraRotation;
+        _camera.transform.localRotation = _initialCameraRotation;
 
         // Trigger event when vaulting ends
-        OnVaultEnd?.Invoke();
+        VaultEnded?.Invoke();
     }
 }

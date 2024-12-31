@@ -1,97 +1,75 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class PlayerLedgeGrab : MonoBehaviour
 {
-    [Header("Ledge Hanging")]
-    [SerializeField]
-    private LayerMask whatIsLedge;
-    private Vector3 pullUpStartPos;
-    private Vector3 pullUpEndPos;
-    private float pullUpTimer;
-    public float pullUpDuration = 0.8f; 
-    public bool isHanging = false;
-    public bool canHang = true;
-    public float hangCooldown;
-    private Vector3 snappingPoint;
-    private Vector3 aboveLedge;
-
     // Event to notify when pull up action ends
-    public event Action OnPullUpEnd;
+    public event Action PullUpEnded;
+
+    public bool IsHanging = false;
+    public bool CanHang = true;
+
+    [Header("Ledge Hanging")]
+    public float HangCooldown;
+    [SerializeField] private LayerMask _whatIsLedge;
+    private Vector3 _pullUpStartPosition;
+    private Vector3 _pullUpEndPosition;
+    private float _pullUpTimer;
+    private float _pullUpDuration = 0.8f; 
+    private Vector3 _snappingPoint;
+    private Vector3 _aboveLedge;
 
     [Header("Detection")]
-    private RaycastHit verticalLedgeHit;
-    private bool ledgeTop;
-    [SerializeField]
-    private float verticalRayDistance;
-    private Vector3 verticalRayOffset;
-    private Vector3 verticalRayOrigin;
-    [SerializeField]
-    private float verticalOffsetPosX;
-    [SerializeField]
-    private float verticalOffsetPosY;
-    [SerializeField]
-    private float verticalOffsetPosZ;
-    private RaycastHit horizontalLedgeHit;
-    private bool ledgeFront;
-    [SerializeField]
-    private float horizontalRayDistance;
+    [SerializeField] private float _verticalRayDistance;
+    [SerializeField] private float _verticalOffsetPositionX;
+    [SerializeField] private float _verticalOffsetPositionY;
+    [SerializeField] private float _verticalOffsetPositionZ;
+    [SerializeField] private float _horizontalRayDistance;
+    private RaycastHit _verticalLedgeHit;
+    private Vector3 _verticalRayOffset;
+    private Vector3 _verticalRayOrigin;
+    private bool _ledgeTop;
+    private RaycastHit _horizontalLedgeHit;
+    private bool _ledgeFront;
 
     [Space(10)]
     [Header("References")]
-    [SerializeField]
-    private Transform orientation;
-    private Rigidbody rb;
-    private Animator animator;
+    [SerializeField] private Transform _orientation;
+    private Rigidbody _rb;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponentInChildren<Animator>();
+        _rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        // TODO:  #1 Check for ledge method [ COMPLETE ]
-        // TODO:  #2 Change player state dynamically based on raycasts [ COMPLETE ]
-        // TODO:  #3 Calculate snapping point & snap player to snapping point [ COMPLETE ]
-        // TODO:  #4 Disable gravity & player inputs [ COMPLETE ]
-        // TODO:  #5 Create ledge hang animation
-        // TODO:  #6 Create dropdown mechanic [ COMPLETE ]
-        // TODO:  #7 Create pullup mechanic [ COMPLETE ]
-        // TODO:  #8 Create pullup animation  
-        if(canHang)
+        if(CanHang)
         {  
             CheckForLedge();
-            HangingStateMachine();
+            UpdateHangingState();
         }
     }
 
     void ShootVerticalRay()
     {
         // Vertical raycast
-        verticalRayOffset = (orientation.right * verticalOffsetPosX) + (orientation.up * verticalOffsetPosY) + (orientation.forward * verticalOffsetPosZ);
-        verticalRayOrigin = transform.position + verticalRayOffset;
-        ledgeTop = Physics.Raycast(verticalRayOrigin, Vector3.down, out verticalLedgeHit, verticalRayDistance, whatIsLedge);
-        Color verticalRayColor = ledgeTop ? Color.red : Color.green;
-        // Debug.DrawRay(verticalRayOrigin, Vector3.down * verticalRayDistance, verticalRayColor);
+        _verticalRayOffset = (_orientation.right * _verticalOffsetPositionX) + (_orientation.up * _verticalOffsetPositionY) + (_orientation.forward * _verticalOffsetPositionZ);
+        _verticalRayOrigin = transform.position + _verticalRayOffset;
+        _ledgeTop = Physics.Raycast(_verticalRayOrigin, Vector3.down, out _verticalLedgeHit, _verticalRayDistance, _whatIsLedge);
     }
 
     void ShootHorizontalRay()
     {
         // Horizontal raycast
-        ledgeFront = Physics.Raycast(transform.position, orientation.forward, out horizontalLedgeHit, horizontalRayDistance, whatIsLedge);
-        Color horizontalRayColor = ledgeFront ? Color.red : Color.green;
-        // Debug.DrawRay(transform.position, orientation.forward * horizontalRayDistance, horizontalRayColor);
+        _ledgeFront = Physics.Raycast(transform.position, _orientation.forward, out _horizontalLedgeHit, _horizontalRayDistance, _whatIsLedge);
     }
 
     void CheckForLedge()
     {
         ShootVerticalRay();
-        if(ledgeTop)
+        if(_ledgeTop)
         {
             ShootHorizontalRay();
         } 
@@ -99,16 +77,16 @@ public class PlayerLedgeGrab : MonoBehaviour
 
     public bool HangingStateValue()
     {
-        return isHanging;
+        return IsHanging;
     }
 
-    public void HangingStateMachine()
+    public void UpdateHangingState()
     {
-        if(!isHanging)
+        if(!IsHanging)
         {
-            if(ledgeFront && ledgeTop)
+            if(_ledgeFront && _ledgeTop)
             {
-            snappingPoint = new Vector3(horizontalLedgeHit.point.x, verticalLedgeHit.point.y ,horizontalLedgeHit.point.z);     
+            _snappingPoint = new Vector3(_horizontalLedgeHit.point.x, _verticalLedgeHit.point.y ,_horizontalLedgeHit.point.z);     
             SnapPlayerToLedge();    
             }
         }
@@ -117,7 +95,7 @@ public class PlayerLedgeGrab : MonoBehaviour
     void SnapPlayerToLedge()
     {
         // Step 1: Get the direction the player should face (opposite of the ledge normal)
-        Vector3 facingDirection = -horizontalLedgeHit.normal;
+        Vector3 facingDirection = -_horizontalLedgeHit.normal;
 
         // Step 2: Calculate the rotation based on the facing direction
         Quaternion targetRotation = Quaternion.LookRotation(facingDirection, Vector3.up);
@@ -126,22 +104,22 @@ public class PlayerLedgeGrab : MonoBehaviour
         transform.rotation = targetRotation;
         
         // Calculate initial snapping point based on raycast info
-        Vector3 awayFromLedge = (transform.position - snappingPoint).normalized;
+        Vector3 awayFromLedge = (transform.position - _snappingPoint).normalized;
 
         float backwardOffset = 0.7f; // Distance away from ledge
         float downwardOffset = 0.6f; // Amount to lower Y position
 
         // Move player to snapping point
-        transform.position = snappingPoint + new Vector3(awayFromLedge.x * backwardOffset, -downwardOffset, awayFromLedge.z * backwardOffset);
-        rb.velocity = new Vector3(0, 0, 0);
+        transform.position = _snappingPoint + new Vector3(awayFromLedge.x * backwardOffset, -downwardOffset, awayFromLedge.z * backwardOffset);
+        _rb.velocity = new Vector3(0, 0, 0);
 
-        canHang = false;
-        isHanging = true;
+        CanHang = false;
+        IsHanging = true;
     }
 
     public void ResetHang()
     {
-        canHang = true;
+        CanHang = true;
     }
 
     public void StartPlayerPullUp()
@@ -149,12 +127,12 @@ public class PlayerLedgeGrab : MonoBehaviour
         Debug.Log("Pull-up initiated.");
         float verticalOffset = 1.1f;
         float depthOffset = 1.2f;
-        isHanging = false;
-        pullUpStartPos = transform.position;
-        Vector3 pointAwayFromLedge = horizontalLedgeHit.point + transform.forward * depthOffset;
-        aboveLedge = verticalLedgeHit.point + verticalLedgeHit.normal.normalized * verticalOffset;
+        IsHanging = false;
+        _pullUpStartPosition = transform.position;
+        Vector3 pointAwayFromLedge = _horizontalLedgeHit.point + transform.forward * depthOffset;
+        _aboveLedge = _verticalLedgeHit.point + _verticalLedgeHit.normal.normalized * verticalOffset;
 
-        pullUpEndPos = new Vector3(pointAwayFromLedge.x, aboveLedge.y, pointAwayFromLedge.z);
+        _pullUpEndPosition = new Vector3(pointAwayFromLedge.x, _aboveLedge.y, pointAwayFromLedge.z);
 
         // Start the pull-up coroutine
         StartCoroutine(PlayerPullUpAction());
@@ -162,13 +140,14 @@ public class PlayerLedgeGrab : MonoBehaviour
 
     IEnumerator PlayerPullUpAction()
     {
-        pullUpTimer = 0;
-        while (pullUpTimer < pullUpDuration)
+        _pullUpTimer = 0;
+        while (_pullUpTimer < _pullUpDuration)
         {
-            pullUpTimer += Time.deltaTime / pullUpDuration;
-            transform.position = Vector3.Lerp(pullUpStartPos, pullUpEndPos, pullUpTimer);
+            _pullUpTimer += Time.deltaTime / _pullUpDuration;
+            transform.position = Vector3.Lerp(_pullUpStartPosition, _pullUpEndPosition, _pullUpTimer);
 
-            yield return null; // Wait for the next frame
+            // Wait for the next frame
+            yield return null;
         }
 
         StopPullUp();
@@ -176,28 +155,6 @@ public class PlayerLedgeGrab : MonoBehaviour
 
     void StopPullUp()
     {
-        OnPullUpEnd?.Invoke();
+        PullUpEnded?.Invoke();
     }
-
-    // void OnDrawGizmos()
-    // {
-    //     Gizmos.color = Color.yellow;
-    //     if (snappingPoint != Vector3.zero)
-    //     {
-    //         Gizmos.DrawSphere(snappingPoint, 0.1f);
-    //     }   
-    //     // if (pullUpStartPos != Vector3.zero)
-    //     // {
-    //     //     Gizmos.DrawSphere(pullUpStartPos, 0.1f);
-    //     // }   
-    //     // if (pullUpEndPos != Vector3.zero)
-    //     // {
-    //     //     Gizmos.DrawSphere(pullUpEndPos, 0.1f);
-    //     // }   
-    //     // Debug.DrawRay(transform.position, transform.forward, Color.blue);
-    //     // Debug.DrawRay(verticalRayOrigin, Vector3.down * verticalRayDistance, Color.green);
-    //     // Debug.DrawRay(transform.position, orientation.forward * horizontalRayDistance, Color.yellow);
-    //     Gizmos.color = Color.red;
-    //     Gizmos.DrawSphere(pullUpEndPos, 0.1f);
-    // }
 }

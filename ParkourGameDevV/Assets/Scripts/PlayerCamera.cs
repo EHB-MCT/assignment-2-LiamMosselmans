@@ -1,45 +1,38 @@
- using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public float sensitivityX;
-    public float sensitivityY;
+    public bool IsCameraInputEnabled = true;
 
-    public Transform orientation;
-
-    public PlayerController playerController;
-
-    float xRotation;
-    float yRotation;
-
-    public bool isCameraInputEnabled = true;
+    [Header("_orientation")]
+    [SerializeField] private Transform _orientation;
+    [SerializeField] private float _sensitivityX;
+    [SerializeField] private float _sensitivityY;
+    private float _xRotation;
+    private float _yRotation;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerController>();
     }
 
     private void Update()
     {
-        if(isCameraInputEnabled)
+        if (IsCameraInputEnabled)
         {
-        // Get mouse input
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensitivityX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensitivityY;
+            // Get mouse input
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * _sensitivityX;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * _sensitivityY;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
+            _yRotation += mouseX;
+            _xRotation -= mouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+            _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
-        // Rotate camera and orientation
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+            // Rotate camera and orientation
+            transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
+            _orientation.rotation = Quaternion.Euler(0, _yRotation, 0);
         }
     }
 }

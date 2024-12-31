@@ -3,14 +3,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerMovement playerMovement;
-    private PlayerInput playerInput;
-    private PlayerWallRun playerWallRun;
-    private PlayerVault playerVault;
-    private PlayerLedgeGrab playerLedgeGrab;
-    private PlayerCamera playerCamera;
-    public PlayerState playerState;
-    
     public enum PlayerState
     {
         walking,
@@ -22,71 +14,69 @@ public class PlayerController : MonoBehaviour
         air
     }
     
-    private bool _vaulting;
-    public bool isVaulting
-    {
-        get { return _vaulting; }
-        set
-        {
-            // Debug.Log("vaulting set to: " + value);
-            _vaulting = value;
-        }
-    }
-    private bool isWallrunning;
-    private bool isHanging;
-    public bool isPerformingAction = false;
-    Rigidbody rb;
+    private PlayerMovement _playerMovement;
+    private PlayerInput _playerInput;
+    private PlayerWallRun _playerWallRun;
+    private PlayerVault _playerVault;
+    private PlayerLedgeGrab _playerLedgeGrab;
+    private PlayerCamera _playerCamera;
+    private PlayerState _playerState;
+
+    private bool _isPerformingAction = false;
+    private bool _isVaulting;
+    private bool _isWallrunning;
+    private bool _isHanging;
+
+    private Rigidbody _rb;
 
     void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
-        playerInput = GetComponent<PlayerInput>();
-        playerWallRun = GetComponent<PlayerWallRun>();
-        playerVault = GetComponent<PlayerVault>();
-        playerLedgeGrab = GetComponent<PlayerLedgeGrab>();
-        playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
-        rb = GetComponent<Rigidbody>();
+        _playerMovement = GetComponent<PlayerMovement>();
+        _playerInput = GetComponent<PlayerInput>();
+        _playerWallRun = GetComponent<PlayerWallRun>();
+        _playerVault = GetComponent<PlayerVault>();
+        _playerLedgeGrab = GetComponent<PlayerLedgeGrab>();
+        _playerCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<PlayerCamera>();
+        _rb = GetComponent<Rigidbody>();
 
-        playerVault.OnVaultEnd += StopPerformingAction;
-        playerLedgeGrab.OnPullUpEnd += StopPerformingAction;
-        playerWallRun.OnWallRunEnd += StopPerformingAction;
+        _playerVault.VaultEnded += StopPerformingAction;
+        _playerLedgeGrab.PullUpEnded += StopPerformingAction;
+        _playerWallRun.WallRunEnded += StopPerformingAction;
     }
 
     void Update()
     {
-        playerMovement.GroundedCheck();
-        playerMovement.SpeedControl();
-        playerMovement.AddDragForce();        
-        isWallrunning = playerWallRun.WallrunningStateMachine(playerInput.VerticalInput(), isWallrunning);
-        isVaulting = playerVault.VaultingStateMachine(playerInput.VerticalInput(), playerInput.IsJumping(), playerMovement.isGrounded);
-        isHanging = playerLedgeGrab.HangingStateValue();
+        _playerMovement.GroundedCheck();
+        _playerMovement.SpeedControl();
+        _playerMovement.AddDragForce();        
+        _isWallrunning = _playerWallRun.UpdateWallRunningState(_playerInput.GetVerticalInput(), _isWallrunning);
+        _isVaulting = _playerVault.UpdateVaultingState(_playerInput.GetVerticalInput(), _playerInput.IsJumping(), _playerMovement.IsGrounded);
+        _isHanging = _playerLedgeGrab.HangingStateValue();
 
-        // Debug.Log("The player is in the state: " + playerState + " and is currently performing an action: " + isPerformingAction);
-
-        if (!isPerformingAction)
+        if (!_isPerformingAction)
         {
             StateHandler();
         }
-        else if (playerState == PlayerState.vaulting)
+        else if (_playerState == PlayerState.vaulting)
         {
-            playerVault.VaultingAction();
+            _playerVault.PerformVaultAction();
         }
-        else if (playerState == PlayerState.hanging)
+        else if (_playerState == PlayerState.hanging)
         {
-            if(Input.GetKeyDown(playerInput.dropDownKey))
+            if(Input.GetKeyDown(_playerInput.DropDownKey))
             {
                 PlayerDropDown();
             }
-            if(Input.GetKeyDown(playerInput.jumpKey))
+            if(Input.GetKeyDown(_playerInput.JumpKey))
             {
-                playerCamera.isCameraInputEnabled = false;
-                playerLedgeGrab.StartPlayerPullUp();
+                _playerCamera.IsCameraInputEnabled = false;
+                _playerLedgeGrab.StartPlayerPullUp();
                 StartCoroutine(ResetHangAfterCooldown());
             }
         }
-        else if (playerState == PlayerState.wallrunning)
+        else if (_playerState == PlayerState.wallrunning)
         {
-            if(playerInput.IsJumping() && playerMovement.canJump)
+            if(_playerInput.IsJumping() && _playerMovement.CanJump)
             {
                 Debug.Log("Attempting wall jump.");
                 PlayerJump();
@@ -96,93 +86,93 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerMovement.MovePlayer(playerInput.HorizontalInput(), playerInput.VerticalInput());
+        _playerMovement.MovePlayer(_playerInput.GetHorizontalInput(), _playerInput.GetVerticalInput());
 
-        if (isWallrunning)
+        if (_isWallrunning)
         {
-            playerWallRun.WallrunningMovement(playerInput.HorizontalInput());
+            _playerWallRun.PerformWallRunMovement(_playerInput.GetHorizontalInput());
         }
     }
 
     private void PlayerJump()
     {
-        playerMovement.canJump = false;
-        playerMovement.Jump();
+        _playerMovement.CanJump = false;
+        _playerMovement.Jump();
         StartCoroutine(ResetJumpAfterCooldown());
     }
 
     IEnumerator ResetJumpAfterCooldown()
     {
-        yield return new WaitForSeconds(playerMovement.jumpCooldown);
-        playerMovement.ResetJump();
+        yield return new WaitForSeconds(_playerMovement.JumpCooldown);
+        _playerMovement.ResetJump();
     }
 
     private void PlayerDropDown()
     {
-        playerState = PlayerState.air;
-        isPerformingAction = false;
-        playerLedgeGrab.isHanging = false;
-        playerLedgeGrab.canHang = false;
-        rb.useGravity = true;
-        playerInput.isInputEnabled = true;
+        _playerState = PlayerState.air;
+        _isPerformingAction = false;
+        _playerLedgeGrab.IsHanging = false;
+        _playerLedgeGrab.CanHang = false;
+        _rb.useGravity = true;
+        _playerInput.IsInputEnabled = true;
         StartCoroutine(ResetHangAfterCooldown());
     }
 
     IEnumerator ResetHangAfterCooldown()
     {
-        yield return new WaitForSeconds(playerLedgeGrab.hangCooldown);
-        playerLedgeGrab.ResetHang();
+        yield return new WaitForSeconds(_playerLedgeGrab.HangCooldown);
+        _playerLedgeGrab.ResetHang();
     }
 
     private void StateHandler()
     {
-        if (isVaulting)
+        if (_isVaulting)
         {
-            playerState = PlayerState.vaulting;
-            isPerformingAction = true;
-            playerCamera.isCameraInputEnabled = false;
+            _playerState = PlayerState.vaulting;
+            _isPerformingAction = true;
+            _playerCamera.IsCameraInputEnabled = false;
         }
-        else if(isHanging)
+        else if(_isHanging)
         {
-            playerState = PlayerState.hanging;
-            isPerformingAction = true;
-            rb.useGravity = false;
-            playerInput.isInputEnabled = false;
+            _playerState = PlayerState.hanging;
+            _isPerformingAction = true;
+            _rb.useGravity = false;
+            _playerInput.IsInputEnabled = false;
         }
-        else if (isWallrunning)
+        else if (_isWallrunning)
         {
-            rb.useGravity = false;
-            playerState = PlayerState.wallrunning;
-            playerMovement.moveSpeed = playerMovement.wallRunSpeed;
-            isPerformingAction = true;
-            playerWallRun.wallRunTimer = 0;
+            _rb.useGravity = false;
+            _playerState = PlayerState.wallrunning;
+            _playerMovement.MoveSpeed = _playerMovement.WallRunSpeed;
+            _isPerformingAction = true;
+            _playerWallRun.WallRunTimer = 0;
         }
-        else if (playerInput.IsJumping() && playerMovement.canJump && playerMovement.isGrounded)
+        else if (_playerInput.IsJumping() && _playerMovement.CanJump && _playerMovement.IsGrounded)
         {
-            playerState = PlayerState.jumping;
+            _playerState = PlayerState.jumping;
             PlayerJump();
         }
-        else if (playerMovement.isGrounded && Input.GetKey(playerInput.sprintKey))
+        else if (_playerMovement.IsGrounded && Input.GetKey(_playerInput.SprintKey))
         {
-            playerState = PlayerState.sprinting;
-            playerMovement.moveSpeed = playerMovement.sprintSpeed;
+            _playerState = PlayerState.sprinting;
+            _playerMovement.MoveSpeed = _playerMovement.SprintSpeed;
         }
-        else if (playerMovement.isGrounded) 
+        else if (_playerMovement.IsGrounded) 
         {
-            playerState = PlayerState.walking;
-            playerMovement.moveSpeed = playerMovement.walkSpeed;
+            _playerState = PlayerState.walking;
+            _playerMovement.MoveSpeed = _playerMovement.WalkSpeed;
         }
         else
         {
-            playerState = PlayerState.air;
+            _playerState = PlayerState.air;
         }
     }
 
     private void StopPerformingAction()
     {
-        isPerformingAction = false;
-        playerCamera.isCameraInputEnabled = true;
-        rb.useGravity = true;
-        playerInput.isInputEnabled = true;
+        _isPerformingAction = false;
+        _playerCamera.IsCameraInputEnabled = true;
+        _rb.useGravity = true;
+        _playerInput.IsInputEnabled = true;
     }
 }
