@@ -2726,11 +2726,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1228790521}
+      addedObject: {fileID: 1228790526}
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1228790522}
+      addedObject: {fileID: 1228790527}
     - targetCorrespondingSourceObject: {fileID: 6173741492181017937, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
@@ -2778,15 +2778,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa05aa6832bfcaf4783ea22444415c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 8
-  SprintSpeed: 16
-  WalkSpeed: 8
-  WallRunSpeed: 8
+  MoveSpeed: 7
+  SprintSpeed: 14
+  WalkSpeed: 7
+  WallRunSpeed: 6
   _groundDrag: 5
-  JumpCooldown: 0.25
-  CanJump: 1
-  _jumpForce: 5.5
-  _airMultiplier: 0.4
   IsGrounded: 0
   _playerHeight: 2
   _whatIsGround:
@@ -2836,7 +2832,7 @@ MonoBehaviour:
   _wallCheckDistance: 0.7
   _minJumpHeight: 2
   _orientation: {fileID: 1212344865}
---- !u!114 &1228790521
+--- !u!114 &1228790526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2845,16 +2841,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1228790510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d8cf95d60bb7b544b857068f3e79928, type: 3}
+  m_Script: {fileID: 11500000, guid: 9398cae51465ac542ba0d526498769c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  _obstacleCheckDistance: 3.5
-  _orientation: {fileID: 1212344865}
-  _cameraTiltAmount: 25
---- !u!114 &1228790522
+  CanJump: 1
+  _jumpForce: 6
+--- !u!114 &1228790527
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2863,21 +2855,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1228790510}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b0fe4419a3a4174399dcff73192febe, type: 3}
+  m_Script: {fileID: 11500000, guid: 36a9eedc570d5e64f823107bf25cda44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsHanging: 0
-  CanHang: 1
-  HangCooldown: 5
-  _whatIsLedge:
-    serializedVersion: 2
-    m_Bits: 512
-  _verticalRayDistance: 4
-  _verticalOffsetPositionX: 0
-  _verticalOffsetPositionY: 4
-  _verticalOffsetPositionZ: 2
-  _horizontalRayDistance: 2.5
-  _orientation: {fileID: 1212344865}
 --- !u!1 &1385607254
 GameObject:
   m_ObjectHideFlags: 0

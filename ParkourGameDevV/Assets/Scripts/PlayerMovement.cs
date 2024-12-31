@@ -12,13 +12,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _groundDrag;
 
     [Space(10)]
-    [Header("Jumping")]
-    public float JumpCooldown;
-    public bool CanJump = true;
-    [SerializeField] private float _jumpForce;
-    [SerializeField] private float _airMultiplier;
-
-    [Space(10)]
     [Header("Grounded Check")]
     public bool IsGrounded;
     [SerializeField] private float _playerHeight;
@@ -36,6 +29,13 @@ public class PlayerMovement : MonoBehaviour
         _rb.freezeRotation = true;
     }
 
+    private void Update()
+    {
+        GroundedCheck();
+        AddDragForce();
+        SpeedControl();
+    }
+
     public void MovePlayer(float horizontalInput, float verticalInput)
     {
         _moveDirection = _orientation.forward * verticalInput + _orientation.right * horizontalInput;
@@ -44,16 +44,12 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.AddForce(_moveDirection.normalized * MoveSpeed * 10f, ForceMode.Force);
         }
-        else
-        {
-            _rb.AddForce(_moveDirection.normalized * MoveSpeed * 10f * _airMultiplier, ForceMode.Force);
-        }
     }
 
     public void GroundedCheck()
     {
-        IsGrounded = Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _whatIsGround) || 
-                     Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _whatIsLedge);
+        IsGrounded = Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _whatIsGround) || Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _whatIsLedge);
+        Debug.DrawRay(transform.position, Vector3.down * (_playerHeight * 0.5f + 0.2f), Color.red);          
     }
 
     public void AddDragForce()
@@ -78,17 +74,5 @@ public class PlayerMovement : MonoBehaviour
             Vector3 limitedVelocity = flatVelocity.normalized * MoveSpeed;
             _rb.velocity = new Vector3(limitedVelocity.x, _rb.velocity.y, limitedVelocity.z);
         }
-    }
-
-    public void Jump()
-    {
-        _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-
-        _rb.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
-    }
-
-    public void ResetJump()
-    {
-        CanJump = true;
     }
 }

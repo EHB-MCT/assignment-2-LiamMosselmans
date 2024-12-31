@@ -21,18 +21,27 @@ public class PlayerCamera : MonoBehaviour
     {
         if (IsCameraInputEnabled)
         {
-            // Get mouse input
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * _sensitivityX;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * _sensitivityY;
-
-            _yRotation += mouseX;
-            _xRotation -= mouseY;
-
-            _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
-
-            // Rotate camera and orientation
-            transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
-            _orientation.rotation = Quaternion.Euler(0, _yRotation, 0);
+            CalculateCameraRotation();
+            RotateCamera();
         }
+    }
+
+    private void CalculateCameraRotation()
+    {
+        // Get mouse input
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * _sensitivityX;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * _sensitivityY;
+
+        _yRotation += mouseX;
+        _xRotation -= mouseY;
+
+        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+    }
+
+    private void RotateCamera() 
+    {
+        // Rotate camera and orientation
+        transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
+        _orientation.rotation = Quaternion.Euler(0, _yRotation, 0);
     }
 }
