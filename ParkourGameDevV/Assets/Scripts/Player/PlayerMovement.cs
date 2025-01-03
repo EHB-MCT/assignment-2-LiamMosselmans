@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,30 +7,38 @@ public class PlayerMovement : MonoBehaviour
     public float SprintSpeed;
     public float WalkSpeed;
     public float WallRunSpeed;
+    public bool IsGrounded;
     [SerializeField] private float _groundDrag;
+    [SerializeField] private float _airMultiplier = 0.4f;
 
     [Space(10)]
     [Header("Grounded Check")]
-    public bool IsGrounded;
-    [SerializeField] private float _playerHeight;
+    [SerializeField] private float _playerHeight = 2f;
     [SerializeField] private LayerMask _whatIsGround;
-    [SerializeField] private LayerMask _whatIsLedge;
 
     [Space(10)]
     [SerializeField] private Transform _orientation;
-    private Vector3 _moveDirection;
+
     private Rigidbody _rb;
+    private GroundChecker _groundChecker;
+    private DragHandler _dragHandler;
+
+    private Vector3 _moveDirection;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
+
+        // Initialize services
+        _groundChecker = new GroundChecker(transform, _playerHeight, _whatIsGround);
+        _dragHandler = new DragHandler(_rb);
     }
 
     private void Update()
     {
-        GroundedCheck();
-        AddDragForce();
+        IsGrounded = _groundChecker.IsGrounded();
+        _dragHandler.ApplyDrag(IsGrounded, _groundDrag);
         SpeedControl();
     }
 
@@ -44,23 +50,9 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.AddForce(_moveDirection.normalized * MoveSpeed * 10f, ForceMode.Force);
         }
-    }
-
-    public void GroundedCheck()
-    {
-        IsGrounded = Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _whatIsGround) || Physics.Raycast(transform.position, Vector3.down, _playerHeight * 0.5f + 0.2f, _whatIsLedge);
-        Debug.DrawRay(transform.position, Vector3.down * (_playerHeight * 0.5f + 0.2f), Color.red);          
-    }
-
-    public void AddDragForce()
-    {
-        if (IsGrounded)
+        else if (!IsGrounded)
         {
-            _rb.drag = _groundDrag;
-        }
-        else
-        {
-            _rb.drag = 0;
+            _rb.AddForce(_moveDirection.normalized * MoveSpeed * 10f * _airMultiplier, ForceMode.Force);
         }
     }
 

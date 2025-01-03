@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateManager : MonoBehaviour
+public class PlayerStateHolder : MonoBehaviour
 {
     public enum PlayerState
     {
@@ -24,7 +22,6 @@ public class PlayerStateManager : MonoBehaviour
             if (_currentState != value)
             {
                 _currentState = value;
-                Debug.Log($"Player state changed to: {_currentState}");
             }
         }
     }

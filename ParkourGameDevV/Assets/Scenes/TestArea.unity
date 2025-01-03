@@ -1384,7 +1384,7 @@ Transform:
   m_GameObject: {fileID: 661835922}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.859, y: -1.96, z: 30.01}
+  m_LocalPosition: {x: 13.859, y: -1.96, z: 24.94}
   m_LocalScale: {x: 3.4570763, y: 1, z: 2.3401053}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2710,7 +2710,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1228790514}
+      addedObject: {fileID: 1228790515}
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
@@ -2718,11 +2718,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1228790515}
+      addedObject: {fileID: 1228790527}
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1228790518}
+      addedObject: {fileID: 1228790514}
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
@@ -2730,7 +2730,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1228790527}
+      addedObject: {fileID: 1228790518}
+    - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1228790530}
+    - targetCorrespondingSourceObject: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1228790531}
     - targetCorrespondingSourceObject: {fileID: 6173741492181017937, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       insertIndex: -1
@@ -2782,15 +2790,13 @@ MonoBehaviour:
   SprintSpeed: 14
   WalkSpeed: 7
   WallRunSpeed: 6
-  _groundDrag: 5
   IsGrounded: 0
+  _groundDrag: 5
+  _airMultiplier: 0.4
   _playerHeight: 2
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  _whatIsLedge:
-    serializedVersion: 2
-    m_Bits: 512
   _orientation: {fileID: 1212344865}
 --- !u!114 &1228790515
 MonoBehaviour:
@@ -2820,18 +2826,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0b8a29b0083d54286b93f8f11711c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallRunTimer: 0
-  _whatIsWall:
-    serializedVersion: 2
-    m_Bits: 128
+  _playerHeight: 2
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  _wallRunForce: 200
-  _maxWallRunTime: 0.8
-  _wallCheckDistance: 0.7
-  _minJumpHeight: 2
-  _orientation: {fileID: 1212344865}
 --- !u!114 &1228790526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2858,6 +2856,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36a9eedc570d5e64f823107bf25cda44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1228790530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228790510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1b6fcd955fdb6428fefa25bbfe2310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsWallDetectedLeft: 0
+  IsWallDetectedRight: 0
+  _whatIsWall:
+    serializedVersion: 2
+    m_Bits: 128
+  _wallCheckDistance: 0.7
+  _orientation: {fileID: 1212344865}
+--- !u!114 &1228790531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228790510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0590b4864f4881439b5b29772a3e98d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wallRunForce: 200
+  _maxWallRunTime: 0.8
+  _orientation: {fileID: 1212344865}
+  WallRunTimer: 0
 --- !u!1 &1385607254
 GameObject:
   m_ObjectHideFlags: 0
@@ -2957,7 +2990,7 @@ Transform:
   m_GameObject: {fileID: 1385607254}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.12, y: 2.49, z: 12.93}
+  m_LocalPosition: {x: -1.12, y: 2.49, z: 13.36}
   m_LocalScale: {x: 0.36911, y: 3.861723, z: 6.851335}
   m_ConstrainProportionsScale: 0
   m_Children: []

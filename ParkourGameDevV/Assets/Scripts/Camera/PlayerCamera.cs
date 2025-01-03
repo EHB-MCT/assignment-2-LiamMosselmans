@@ -4,12 +4,21 @@ public class PlayerCamera : MonoBehaviour
 {
     public bool IsCameraInputEnabled = true;
 
-    [Header("_orientation")]
+    [Header("Camera")]
     [SerializeField] private Transform _orientation;
-    [SerializeField] private float _sensitivityX;
-    [SerializeField] private float _sensitivityY;
+    [SerializeField] private float _sensitivityX = 400f;
+    [SerializeField] private float _sensitivityY = 400f;
+
     private float _xRotation;
     private float _yRotation;
+
+    private ICameraInputProvider _inputProvider;
+
+    private void Awake()
+    {
+        // Inject the input provider (can be swapped with another implementation)
+        _inputProvider = new UnityCameraInputProvider();
+    }
 
     private void Start()
     {
@@ -28,9 +37,9 @@ public class PlayerCamera : MonoBehaviour
 
     private void CalculateCameraRotation()
     {
-        // Get mouse input
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * _sensitivityX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * _sensitivityY;
+        // Use the input provider to get mouse input
+        float mouseX = _inputProvider.GetMouseX() * Time.deltaTime * _sensitivityX;
+        float mouseY = _inputProvider.GetMouseY() * Time.deltaTime * _sensitivityY;
 
         _yRotation += mouseX;
         _xRotation -= mouseY;
@@ -38,9 +47,9 @@ public class PlayerCamera : MonoBehaviour
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
     }
 
-    private void RotateCamera() 
+    private void RotateCamera()
     {
-        // Rotate camera and orientation
+        // Rotate the camera and orientation
         transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
         _orientation.rotation = Quaternion.Euler(0, _yRotation, 0);
     }
