@@ -2063,6 +2063,52 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &893153665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 893153667}
+  - component: {fileID: 893153666}
+  m_Layer: 0
+  m_Name: SpeedBoostPowerUpFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &893153666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893153665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 216f219f0c04ba448a50a13c16ceacb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedBoostPowerUpPrefab: {fileID: 9140547233098942835, guid: 87e60234519851843a301e77d35ad6fe,
+    type: 3}
+--- !u!4 &893153667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893153665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &932748329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2683,6 +2729,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6173741492181017937, guid: 749c22567c036af4c84be3d9946d101b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 6762778218122774667, guid: 749c22567c036af4c84be3d9946d101b,
         type: 3}
       propertyPath: m_Icon
@@ -2774,6 +2825,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f17870cd45e52ea429f10ebf26bb6d1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpeedMultiplier: 1
 --- !u!114 &1228790514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2843,7 +2895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanJump: 1
-  _jumpForce: 6
+  JumpForce: 4
 --- !u!114 &1228790527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3256,6 +3308,57 @@ Transform:
   - {fileID: 302298646}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1812106700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1812106702}
+  - component: {fileID: 1812106703}
+  m_Layer: 0
+  m_Name: PowerUpSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1812106702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812106700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812106703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812106700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6c6ff79530171c45bdf6b420f5a87e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedBoostPowerUpFactory: {fileID: 893153666}
+  _spawnLocations:
+  - {x: 0, y: 2, z: 0}
+  - {x: 0, y: 2, z: 4}
+  - {x: 4, y: 2, z: 4}
+  - {x: 4, y: 2, z: 0}
+  - {x: 4, y: 4, z: 4}
 --- !u!43 &1899897696
 Mesh:
   m_ObjectHideFlags: 0
@@ -3551,3 +3654,5 @@ SceneRoots:
   - {fileID: 5638767}
   - {fileID: 1178258465}
   - {fileID: 932748333}
+  - {fileID: 893153667}
+  - {fileID: 1812106702}
