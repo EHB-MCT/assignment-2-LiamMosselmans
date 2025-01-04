@@ -1,19 +1,20 @@
 # Github Repository Structure
 
 ## Conclusion
-Unity project in root of Github repo OR Unity project encapsulated into a folder
+Unity project in root of Github repo OR Unity project encapsulated into a folder.
 
-## Final Repository Structure
-+---Documentation
-|   +---Research.md
-|   +---Progress.md
-|   ...
-+---UnityProject
-|   +---Assets
-|   +---ProjectSettings
-|   +---Packages
-+---README.md
-+---LICENSE
+## Final Repository Structure Convention
++---Documentation\
+|   +---Research.md\
+|   +---Progress.md\
+|   ...\
++---UnityProject\
+|   +---Assets\
+|   +---ProjectSettings\
+|   +---Packages\
++---README.md\
++---LICENSE\
+...
 
 
 # Naming Conventions
@@ -62,17 +63,17 @@ The feature-based approach structures folders by features, such as Player, Enemi
 
 For the goal of this assignment, I will be utilizing the content-based approach. My reasoning is that that the project will be on a smaller scale, and the content-based approach is also the standard that Unity itself adheres to. Thus this approach will make my project easy to navigate for anyone.
 
-## Final Folder Structure
-Assets
-+---Art
-|   +---Materials
-|   +---Models
-|   +---Textures
-+---Audio
-|   +---Music
-|   +---Sound
-+---Animations
-+---Scripts
-+---Prefabs
-+---Scenes
+## Final Folder Structure Convention
+Assets\
++---Art\
+|   +---Materials\
+|   +---Models\
+|   +---Textures\
++---Audio\
+|   +---Music\
+|   +---Sound\
++---Animations\
++---Scripts\
++---Prefabs\
++---Scenes\
 +---UI

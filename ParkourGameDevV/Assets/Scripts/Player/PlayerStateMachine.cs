@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
 {
+    public float SpeedMultiplier = 1f;
+
     private PlayerInput _playerInput;
     private PlayerStateHolder _playerStateHolder;
     private PlayerMovement _playerMovement;
@@ -93,11 +95,11 @@ public class PlayerStateMachine : MonoBehaviour
                 break;
 
             case PlayerStateHolder.PlayerState.sprinting:
-                _playerMovement.MoveSpeed = _playerMovement.SprintSpeed;
+                _playerMovement.MoveSpeed = _playerMovement.SprintSpeed * SpeedMultiplier;
                 break;
 
             case PlayerStateHolder.PlayerState.walking:
-                _playerMovement.MoveSpeed = _playerMovement.WalkSpeed;
+                _playerMovement.MoveSpeed = _playerMovement.WalkSpeed * SpeedMultiplier;
                 break;
 
             case PlayerStateHolder.PlayerState.air:

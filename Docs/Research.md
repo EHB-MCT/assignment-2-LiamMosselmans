@@ -3,22 +3,23 @@
 ## Sources
 - [Pacman Agent AI - Repository Example](https://github.com/ma-shamshiri/Pacman-Game#readme)
 - [CubeWorld Game - Repository Example](https://github.com/federicodangelo/CubeWorld)
-INSERT CHATGPT LINK
 
 ## Conclusion
-Unity project in root of Github repo OR Unity project encapsulated into a folder
+Unity project in root of Github repo OR Unity project encapsulated into a folder.
 
 ### Final Repository Structure
-+---Documentation
-|   +---research.md
-|   +---progress.md
-|   ...
-+---UnityProject
-|   +---Assets
-|   +---ProjectSettings
-|   +---Packages
-+---README.md
++---Documentation\
+|   +---research.md\
+|   +---progress.md\
+|   ...\
++---UnityProject\
+|   +---Assets\
+|   +---ProjectSettings\
+|   +---Packages\
+|   ...\
++---README.md\
 +---LICENSE
+...\
 
 # Folder Structure
 
@@ -32,7 +33,6 @@ Unity project in root of Github repo OR Unity project encapsulated into a folder
 - [How do you people organize folders into your project? - Unity Community Post](https://discussions.unity.com/t/how-do-you-people-organize-folders-into-your-project-im-trying-to-find-what-is-best-for-me/942296)
 - [Unity Folder Structure - YouTube Video By DVS Devs](https://www.youtube.com/watch?v=Qf6VHfOUkSQ)
 - [Organizing Your Unity Project — Content vs Feature Folders - YouTube Video By Infallible Code](https://youtu.be/o8HIGKObG1Q?si=SVLAYjzRygOqCuv-)
-INSERT CHATGPT LINK
 
 ## Conclusion
 Unity also has special folders which hold core functionalities. These are Editor, Editor Default Resources, Gizmos, Resources, Standard Assets, and Streaming Assets,
@@ -45,20 +45,22 @@ The feature-based approach structures folders by features, such as Player, Enemi
 
 For the goal of this assignment, I will be utilizing the content-based approach. My reasoning is that that the project will be on a smaller scale, and the content-based approach is also the standard that Unity itself adheres to. Thus this approach will make my project easy to navigate for anyone.
 
-### Final Folder Structure
-Assets
-+---Art
-|   +---Materials
-|   +---Models
-|   +---Textures
-+---Audio
-|   +---Music
-|   +---Sound
-+---Scripts
-+---Prefabs
-+---Scenes
+### Final Folder Structure Convention
+Assets\
++---Art\
+|   +---Materials\
+|   +---Models\
+|   +---Textures\
+|   ...\
++---Audio\
+|   +---Music\
+|   +---Sound\
+|   ...\
++---Scripts\
++---Prefabs\
++---Scenes\
 +---UI
-
+...\
 
 # Naming Conventions
 
@@ -83,5 +85,3 @@ For clarity and readability I'll be using a mix of camelCase and PascalCase. I'l
 - [Unity3D Good Practices](https://github.com/futurice/unity-good-practices)
 - [How to structure your Unity project (best practice tips)](https://gamedevbeginner.com/how-to-structure-your-unity-project-best-practice-tips/)
 - [Unity Architecture for Noobs - Game Structure - YouTube Video By Tarodev](https://www.youtube.com/watch?v=tE1qH8OxO2Y)
-
-## Conclusion

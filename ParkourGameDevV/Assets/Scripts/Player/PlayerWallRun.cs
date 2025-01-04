@@ -11,17 +11,12 @@ public class PlayerWallRun : MonoBehaviour
     [SerializeField] private LayerMask _whatIsGround;
     private bool _isGrounded;
 
-    [Space(10)]
-    [Header("Orientation")]
-    private Rigidbody _rb;
-
     private WallDetector _wallDetector;
     private PlayerWallRunMovement _playerWallRunMovement;
     private GroundChecker _groundChecker;
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
         _wallDetector = GetComponent<WallDetector>();
         _playerWallRunMovement = GetComponent<PlayerWallRunMovement>();
         _groundChecker = new GroundChecker(transform, _playerHeight, _whatIsGround);

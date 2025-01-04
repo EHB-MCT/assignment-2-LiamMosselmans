@@ -5,7 +5,7 @@ public class PlayerJump : MonoBehaviour
 {
     [Header("Jumping")]
     public bool CanJump = true;
-    [SerializeField] private float _jumpForce;
+    public float JumpForce = 4f;
 
     private float _jumpCooldown = 0.2f;
     private Rigidbody _rb;
@@ -20,7 +20,7 @@ public class PlayerJump : MonoBehaviour
         if (!CanJump) return;
 
         _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-        _rb.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
+        _rb.AddForce(transform.up * JumpForce, ForceMode.Impulse);
 
         CanJump = false;
         StartCoroutine(ResetJumpAfterCooldown());
