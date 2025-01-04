@@ -34,6 +34,15 @@ public class PlayerStateMachine : MonoBehaviour
             StateSetter();
             StateHandler();
         }
+        else if (_playerStateHolder.CurrentState == PlayerStateHolder.PlayerState.wallrunning)
+        {
+            if(_playerInput.IsJumping())
+            {
+                _playerJump.CurrentJumpForce = _playerJump.WallJumpForce;
+                _playerJump.Jump();
+                _playerJump.CurrentJumpForce = _playerJump.GroundedJumpForce;
+            }
+        }
 
         _isWallRunning = _playerWallRun.IsWallRunning(_playerInput.GetVerticalInput());
     }

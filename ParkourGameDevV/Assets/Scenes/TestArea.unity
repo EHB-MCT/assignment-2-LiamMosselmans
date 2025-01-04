@@ -2838,10 +2838,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa05aa6832bfcaf4783ea22444415c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 7
-  SprintSpeed: 14
-  WalkSpeed: 7
-  WallRunSpeed: 6
+  MoveSpeed: 5
+  SprintSpeed: 12
+  WalkSpeed: 5
+  WallRunSpeed: 7
   IsGrounded: 0
   _groundDrag: 5
   _airMultiplier: 0.4
