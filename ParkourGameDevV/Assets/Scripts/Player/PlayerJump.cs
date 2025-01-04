@@ -5,7 +5,9 @@ public class PlayerJump : MonoBehaviour
 {
     [Header("Jumping")]
     public bool CanJump = true;
-    public float JumpForce = 4f;
+    public float GroundedJumpForce = 4f;
+    public float WallJumpForce = 7f;
+    public float CurrentJumpForce;
 
     private float _jumpCooldown = 0.2f;
     private Rigidbody _rb;
@@ -13,6 +15,8 @@ public class PlayerJump : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+
+        CurrentJumpForce = GroundedJumpForce;
     }
     
     public void Jump()
@@ -20,7 +24,7 @@ public class PlayerJump : MonoBehaviour
         if (!CanJump) return;
 
         _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-        _rb.AddForce(transform.up * JumpForce, ForceMode.Impulse);
+        _rb.AddForce(transform.up * CurrentJumpForce, ForceMode.Impulse);
 
         CanJump = false;
         StartCoroutine(ResetJumpAfterCooldown());
