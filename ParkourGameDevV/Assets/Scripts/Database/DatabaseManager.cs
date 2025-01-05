@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -22,9 +23,6 @@ public class DatabaseManager : MonoBehaviour
             {
                 _databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
                 Debug.Log("Firebase initialized successfully.");
-
-                // Example: Writing data to Firebase under a node called "exampleNode"
-                CreateUser();
             }
             else
             {
@@ -41,19 +39,13 @@ public class DatabaseManager : MonoBehaviour
         _databaseReference.Child("users").Child(_userID).SetRawJsonValueAsync(json);
     }
 
-    // private void WriteToDatabase(string nodeName, string data)
-    // {
-    //     // Set a value under the node with the name 'nodeName'
-    //     _databaseReference.Child(nodeName).SetValueAsync(data).ContinueWithOnMainThread(writeTask =>
-    //     {
-    //         if (writeTask.IsCompleted)
-    //         {
-    //             Debug.Log($"Data written to {nodeName}: {data}");
-    //         }
-    //         else
-    //         {
-    //             Debug.LogError("Failed to write data to Firebase.");
-    //         }
-    //     });
-    // }
+    public void SubmitUserParkourData(float pathATime, float pathBTime, Dictionary<string, float> sectionTimes, string chosenPath)
+    {
+        // Create a data structure to hold the parkour data
+        ParkourData parkourData = new ParkourData(pathATime, pathBTime, sectionTimes, chosenPath);
+        string json = JsonUtility.ToJson(parkourData);
+
+        // Write the data to Firebase under the current user's ID
+        _databaseReference.Child("users").Child(_userID).Child("parkourData").SetRawJsonValueAsync(json);
+    }
 }
