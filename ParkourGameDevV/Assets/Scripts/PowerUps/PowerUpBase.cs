@@ -38,12 +38,6 @@ public abstract class BasePowerUp : MonoBehaviour, IPowerUp
 
     public IEnumerator HandlePowerUp()
     {
-        // Instantiate pickup effect
-        // if (_pickupEffect != null)
-        // {
-        //     Instantiate(_pickupEffect, transform.position, transform.rotation);
-        // }
-
         // Enable powerup effect
         EnablePowerUpEffect();
 

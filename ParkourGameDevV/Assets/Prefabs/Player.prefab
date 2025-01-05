@@ -317,7 +317,7 @@ MonoBehaviour:
   MoveSpeed: 5
   SprintSpeed: 12
   WalkSpeed: 5
-  WallRunSpeed: 7
+  WallRunSpeed: 6
   IsGrounded: 0
   _groundDrag: 5
   _airMultiplier: 0.4
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanJump: 1
   GroundedJumpForce: 6
-  WallJumpForce: 9
+  WallJumpForce: 7
   CurrentJumpForce: 0
 --- !u!114 &5234478805480088541
 MonoBehaviour:
