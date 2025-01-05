@@ -6,8 +6,10 @@ using UnityEngine;
 public class DatabaseManager : MonoBehaviour
 {
     private DatabaseReference _databaseReference;
-    private string _userName = "Robbe";
+    private string _userName = "Admin";
     private string _userID;
+    private PathChoiceCounts _pathChoiceCounts = new PathChoiceCounts(0, 0);
+    private List<TimeEntry> _topTimes = new List<TimeEntry>();
 
     private void Start()
     {
@@ -39,13 +41,82 @@ public class DatabaseManager : MonoBehaviour
         _databaseReference.Child("users").Child(_userID).SetRawJsonValueAsync(json);
     }
 
-    public void SubmitUserParkourData(float pathATime, float pathBTime, Dictionary<string, float> sectionTimes, string chosenPath)
+    public void SubmitUserParkourData(float totalTime, Dictionary<string, float> sectionTimes, string chosenPath)
     {
-        // Create a data structure to hold the parkour data
-        ParkourData parkourData = new ParkourData(pathATime, pathBTime, sectionTimes, chosenPath);
+        if (string.IsNullOrEmpty(chosenPath))
+        {
+            Debug.LogError("No path chosen. Cannot submit parkour data.");
+            return;
+        }
+    
+        ParkourData parkourData = new ParkourData(
+            totalTime,     
+            chosenPath 
+        );
+
         string json = JsonUtility.ToJson(parkourData);
 
-        // Write the data to Firebase under the current user's ID
-        _databaseReference.Child("users").Child(_userID).Child("parkourData").SetRawJsonValueAsync(json);
+        _databaseReference.Child("users").Child(_userID).Child("parkourData").SetRawJsonValueAsync(JsonUtility.ToJson(parkourData)).ContinueWith(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                Debug.Log("Parkour data submitted successfully.");
+            }
+            else
+            {
+                Debug.LogError($"Failed to submit parkour data: {task.Exception}");
+            }
+        });
+
+        _databaseReference.Child("globalData").SetRawJsonValueAsync(JsonUtility.ToJson(parkourData)).ContinueWith(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                Debug.Log("Parkour data submitted successfully.");
+            }
+            else
+            {
+                Debug.LogError($"Failed to submit parkour data: {task.Exception}");
+            }
+        });
+    }
+
+    public void TrackPathChoice(string chosenPath, float totalTime)
+    {
+        if (chosenPath == "PathA")
+        {
+            _pathChoiceCounts.PathACount++;
+        }
+        else if (chosenPath == "PathB")
+        {
+            _pathChoiceCounts.PathBCount++;
+        }
+
+        _topTimes.Add(new TimeEntry(totalTime, chosenPath));
+        _topTimes.Sort((entry1, entry2) => entry1.Time.CompareTo(entry2.Time));
+
+        if (_topTimes.Count > 10)
+        {
+            _topTimes.RemoveAt(_topTimes.Count - 1);
+        }
+    }
+
+    public void SubmitGlobalData()
+    {
+        GlobalData globalData = new GlobalData(_topTimes, _pathChoiceCounts);
+
+        DatabaseReference databaseReference = FirebaseDatabase.DefaultInstance.GetReference("globalData");
+
+        databaseReference.SetRawJsonValueAsync(JsonUtility.ToJson(globalData)).ContinueWith(task =>
+        {
+            if (task.IsCompletedSuccessfully)
+            {
+                Debug.Log("Global data submitted successfully.");
+            }
+            else
+            {
+                Debug.LogError($"Failed to submit global data: {task.Exception}");
+            }
+        });
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PathTrigger : MonoBehaviour
 {
-    public string PathName;
+    private string _privateName;
     [SerializeField] private DataTrackingManager _dataTrackingManager;
 
     private void Start()
@@ -17,24 +17,30 @@ public class PathTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerObject")) // Ensure the player enters the trigger
+        if (other.CompareTag("PlayerObject"))
         {
             if (this.CompareTag("StartTrigger_PathA"))
             {
-                Debug.Log("Hello there, path A");
-                PathName = "PathA";
-                _dataTrackingManager.StartTrackingPath(PathName);
+                _privateName = "PathA";
+                _dataTrackingManager.ChosenPath = _privateName;
+                _dataTrackingManager.StartTrackingPath(_dataTrackingManager.ChosenPath);
                 GetComponent<Collider>().enabled = false;
             }
             else if(this.CompareTag("StartTrigger_PathB"))
             {
-                Debug.Log("Hello there, path B");
-                PathName = "PathB";
-                _dataTrackingManager.StartTrackingPath(PathName);
+                _privateName = "PathB";
+                _dataTrackingManager.ChosenPath = _privateName;
+                _dataTrackingManager.StartTrackingPath(_dataTrackingManager.ChosenPath);
+                GetComponent<Collider>().enabled = false;
+            }
+            else if(this.CompareTag("SectionTrigger"))
+            {
+                _dataTrackingManager.TrackSectionTime("Section1");
                 GetComponent<Collider>().enabled = false;
             }
             else if (this.CompareTag("FinishTrigger"))
             {
+                _dataTrackingManager.TrackSectionTime("Section2");
                 _dataTrackingManager.StopTrackingPath();
                 GetComponent<Collider>().enabled = false;
             }

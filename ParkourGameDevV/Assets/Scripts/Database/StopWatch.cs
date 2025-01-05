@@ -1,33 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class StopWatch : MonoBehaviour
 {
     private float _startTime;
+    private float _currentSectionTime;
     public float TotalTime;
-    // public Dictionary<string, float> SectionTimes = new Dictionary<string, float>();
+    public Dictionary<string, float> SectionTimes = new Dictionary<string, float>();
 
     public void StartTracking()
     {
         _startTime = Time.time;
+        _currentSectionTime = Time.time;
     }
 
     public void StopTracking()
     {
         TotalTime = Time.time - _startTime;
-
-        // SectionTimes.Clear();
         _startTime = 0f;
     }
 
-    // public void TrackSectionTime(string sectionName)
-    // {
-    //     float sectionTime = Time.time - _startTime;
-    //     SectionTimes[sectionName] = sectionTime;
+    public void TrackSectionTime(string chosenPath, string sectionName)
+    {
+        string fullKey = $"{chosenPath}_{sectionName}";
+        
+        float sectionFinalTime = Time.time - _currentSectionTime;
+        SectionTimes[fullKey] = sectionFinalTime;
 
-    //     // Reset stopwatch for the next section
-    //     _startTime = Time.time;
-    // }
+        _currentSectionTime = Time.time;
+        Debug.Log($"Tracked Section: {fullKey}, Time: {sectionFinalTime}");
+    }
 }

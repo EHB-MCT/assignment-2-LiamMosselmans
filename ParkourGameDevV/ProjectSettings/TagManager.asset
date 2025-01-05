@@ -8,6 +8,7 @@ TagManager:
   - StartTrigger_PathA
   - FinishTrigger
   - StartTrigger_PathB
+  - SectionTrigger
   layers:
   - Default
   - TransparentFX
