@@ -70,3 +70,7 @@
 # Temporary auto-generated Android Assets
 /ParkourGameDevV/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /ParkourGameDevV/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Firebase files that are >100MB
+/ParkourGameDevV/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_5_0.bundle
+/ParkourGameDevV/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_5_0.so

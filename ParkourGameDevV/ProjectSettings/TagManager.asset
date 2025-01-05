@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerObject
+  - StartTrigger_PathA
+  - FinishTrigger
+  - StartTrigger_PathB
+  - SectionTrigger
   layers:
   - Default
   - TransparentFX
