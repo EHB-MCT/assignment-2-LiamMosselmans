@@ -67,7 +67,7 @@ Reference issues or pull requests where relevant (e.g., Fixes #123).
 ## Coding Standards
 Please ensure your code meets the following standards:
 
-- Use clear and consistent [naming conventions](./Docs/Conventions.md).
+- Use clear and consistent [naming conventions](./Docs/Conventions).
 - Write comments for complex or non-obvious code.
 - Format your code properly and remove unnecessary files or debug statements.
 - Test your changes thoroughly before submitting.
