@@ -35,7 +35,7 @@ git push origin feature/your-feature-name
 ---
 
 ## Code of Conduct
-By contributing to this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md). Please make sure to read it before participating.
+By contributing to this project, you agree to abide by our [Code of Conduct](./CODE_OF_CONDUCT.md). Please make sure to read it before participating.
 
 ---
 

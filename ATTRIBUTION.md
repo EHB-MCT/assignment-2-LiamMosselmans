@@ -12,4 +12,4 @@
 - [**Firebase**](https://firebase.google.com)
 
 ## License
-- This project is licensed under the MIT License. View the [License](LICENSE.md) file for more information.
+- This project is licensed under the MIT License. View the [License](./LICENSE.md) file for more information.

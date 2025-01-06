@@ -62,15 +62,15 @@ Key metrics such as completion times, individual section times, and chosen path 
 
 ## License
 
-[MIT](LICENSE.md)
+[MIT](./LICENSE.md)
 
 ## Code of Conduct
 
-Please adhere to the rules found in the following document: [Code of Conduct](CODE_OF_CONDUCT.md).
+Please adhere to the rules found in the following document: [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## Contributing Guidelines
 
-When contributing, please adhere to the guidelines found in the following document: [Contributing Guidelines](CONTRIBUTING.md).
+When contributing, please adhere to the guidelines found in the following document: [Contributing Guidelines](./CONTRIBUTING.md).
 
 ## Sources 
 
