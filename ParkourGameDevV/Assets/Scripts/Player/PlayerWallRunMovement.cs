@@ -22,21 +22,16 @@ public class PlayerWallRunMovement : MonoBehaviour
         {
             _rb.useGravity = true;
         }
-
-        // Determine the wall's normal direction
         Vector3 wallNormalDirection = isWallRight ? wallNormal : -wallNormal;
         Vector3 wallForwardDirection = Vector3.Cross(wallNormalDirection, transform.up);
 
-        // Determine the direction the player should move (towards or away from the wall)
         if ((_orientation.forward - wallForwardDirection).magnitude > (_orientation.forward - -wallForwardDirection).magnitude)
         {
             wallForwardDirection = -wallForwardDirection;
         }
 
-        // Apply the forward movement force towards the wall
         _rb.AddForce(wallForwardDirection * _wallRunForce, ForceMode.Force);
 
-        // Push the player towards the wall based on horizontal input
         if (!(isWallRight && horizontalInput < 0) && !(horizontalInput > 0))
         {
             _rb.AddForce(-wallNormal * 100f, ForceMode.Force);

@@ -28,6 +28,5 @@ public class StopWatch : MonoBehaviour
         SectionTimes[fullKey] = sectionFinalTime;
 
         _currentSectionTime = Time.time;
-        Debug.Log($"Tracked Section: {fullKey}, Time: {sectionFinalTime}");
     }
 }

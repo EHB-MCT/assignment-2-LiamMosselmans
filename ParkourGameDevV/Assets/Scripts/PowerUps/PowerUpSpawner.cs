@@ -13,7 +13,6 @@ public class PowerUpSpawner : MonoBehaviour
 
     public void SpawnSpeedBoostPowerUps()
     {
-        // Spawn all power-ups at their respective locations
         foreach (Vector3 location in _spawnLocations)
         {
             _speedBoostPowerUpFactory.CreatePowerUp(location);

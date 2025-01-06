@@ -4,7 +4,6 @@ using UnityEngine;
 public abstract class BasePowerUp : MonoBehaviour, IPowerUp
 {
     [SerializeField] protected float _duration = 5f;
-    // [SerializeField] protected GameObject _pickupEffect;
 
     public string PowerUpName { get; set; }
     public float Duration { get => _duration; set => _duration = value; }
@@ -38,20 +37,15 @@ public abstract class BasePowerUp : MonoBehaviour, IPowerUp
 
     public IEnumerator HandlePowerUp()
     {
-        // Enable powerup effect
         EnablePowerUpEffect();
 
-        // Disable the power-up object
         _meshRenderer.enabled = false;
         _collider.enabled = false;
 
-        // Wait for the duration
         yield return new WaitForSeconds(Duration);
 
-        // Disable powerup effect
         DisablePowerUpEffect();
 
-        // Destroy the power-up object
         Destroy(gameObject);
     }
 

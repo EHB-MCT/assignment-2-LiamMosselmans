@@ -4,6 +4,8 @@ public class PlayerStateMachine : MonoBehaviour
 {
     public float SpeedMultiplier = 1f;
 
+    [SerializeField]
+    private Canvas _leaderBoardCanvas;
     private PlayerInput _playerInput;
     private PlayerStateHolder _playerStateHolder;
     private PlayerMovement _playerMovement;
@@ -41,6 +43,18 @@ public class PlayerStateMachine : MonoBehaviour
                 _playerJump.CurrentJumpForce = _playerJump.WallJumpForce;
                 _playerJump.Jump();
                 _playerJump.CurrentJumpForce = _playerJump.GroundedJumpForce;
+            }
+        }
+
+        if(Input.GetKeyDown(_playerInput.TabKey))
+        {
+            if(_leaderBoardCanvas.GetComponent<Canvas>().enabled == false)
+            {
+                _leaderBoardCanvas.GetComponent<Canvas>().enabled = true;
+            }
+            else if(_leaderBoardCanvas.GetComponent<Canvas>().enabled == true)
+            {
+                _leaderBoardCanvas.GetComponent<Canvas>().enabled = false;
             }
         }
 

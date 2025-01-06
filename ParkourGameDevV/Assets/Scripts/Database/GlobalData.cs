@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 public class GlobalData
 {
-    public List<TimeEntry> TopTimes; // List to store the top 10 times
-    public PathChoiceCounts PathChoiceCounts; // Store the path choice counts
+    public List<TimeEntry> TopTimes;
+    public PathChoiceCounts PathChoiceCounts;
 
     public GlobalData(List<TimeEntry> topTimes, PathChoiceCounts pathChoiceCounts)
     {
@@ -17,7 +17,6 @@ public class TimeEntry
 {
     public float Time;
     public string ChosenPath;
-
     public TimeEntry(float time, string chosenPath)
     {
         Time = time;

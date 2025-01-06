@@ -7,6 +7,7 @@ public class PlayerInput : MonoBehaviour
     public KeyCode JumpKey = KeyCode.Space;
     public KeyCode SprintKey = KeyCode.LeftShift;
     public KeyCode DropDownKey = KeyCode.P;
+    public KeyCode TabKey = KeyCode.Tab;
     public bool IsInputEnabled = true;
 
     public float GetHorizontalInput()

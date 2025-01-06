@@ -17,9 +17,7 @@ public class SpeedBoostPowerUp : BasePowerUp
 
         if (_playerStateMachine != null)
         {
-            // Apply the speed boost effect (multiply speed)
             _playerStateMachine.SpeedMultiplier *= _speedMultiplier;
-            Debug.Log($"{PowerUpName} effect enabled");
         }
         else
         {
@@ -32,7 +30,6 @@ public class SpeedBoostPowerUp : BasePowerUp
         {
             // Reset the player's speed to normal (or the base speed)
             _playerStateMachine.SpeedMultiplier /= _speedMultiplier;
-            Debug.Log($"{PowerUpName} effect disabled");
         }
     }
 }
