@@ -25,12 +25,7 @@ public class DataTrackingManager : MonoBehaviour
     {
         _stopWatch.StopTracking();
         _totalTime = _stopWatch.TotalTime;
-        
-        Debug.Log($"Path: {ChosenPath}, Time: {_totalTime}");
-
-        _databaseManager.TrackPathChoice(ChosenPath, _totalTime);
         _databaseManager.SubmitUserParkourData(_totalTime, _stopWatch.SectionTimes,ChosenPath);
-        _databaseManager.SubmitGlobalData();
     }
 
     public void TrackSectionTime(string sectionName)

@@ -11,7 +11,6 @@ public class PathTrigger : MonoBehaviour
         if (_dataTrackingManager == null)
         {
             _dataTrackingManager = FindObjectOfType<DataTrackingManager>();
-            Debug.Log(_dataTrackingManager);
         }
     }
 

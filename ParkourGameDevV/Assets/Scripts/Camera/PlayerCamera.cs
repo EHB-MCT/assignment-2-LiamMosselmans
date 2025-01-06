@@ -16,7 +16,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
-        // Inject the input provider (can be swapped with another implementation)
         _inputProvider = new UnityCameraInputProvider();
     }
 
@@ -37,7 +36,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void CalculateCameraRotation()
     {
-        // Use the input provider to get mouse input
         float mouseX = _inputProvider.GetMouseX() * Time.deltaTime * _sensitivityX;
         float mouseY = _inputProvider.GetMouseY() * Time.deltaTime * _sensitivityY;
 
@@ -49,7 +47,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void RotateCamera()
     {
-        // Rotate the camera and orientation
         transform.rotation = Quaternion.Euler(_xRotation, _yRotation, 0);
         _orientation.rotation = Quaternion.Euler(0, _yRotation, 0);
     }
