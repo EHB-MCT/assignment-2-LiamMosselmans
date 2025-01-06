@@ -3,7 +3,7 @@
 ## Conclusion
 Unity project in root of Github repo OR Unity project encapsulated into a folder.
 
-## Final Repository Structure Convention
+## Repository Structure Convention
 +---Documentation\
 |   +---Research.md\
 |   +---Progress.md\
@@ -63,7 +63,7 @@ The feature-based approach structures folders by features, such as Player, Enemi
 
 For the goal of this assignment, I will be utilizing the content-based approach. My reasoning is that that the project will be on a smaller scale, and the content-based approach is also the standard that Unity itself adheres to. Thus this approach will make my project easy to navigate for anyone.
 
-## Final Folder Structure Convention
+## Folder Structure Convention
 Assets\
 +---Art\
 |   +---Materials\
@@ -73,7 +73,4 @@ Assets\
 |   +---Music\
 |   +---Sound\
 +---Animations\
-+---Scripts\
-+---Prefabs\
-+---Scenes\
-+---UI
+...
