@@ -62,15 +62,15 @@ Key metrics such as completion times, individual section times, and chosen path 
 
 ## License
 
-[MIT](LICENSE)
+[MIT](./LICENSE.md)
 
 ## Code of Conduct
 
-Please adhere to the rules found in the following document: [Code of Conduct](CODE_OF_CONDUCT).
+Please adhere to the rules found in the following document: [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## Contributing Guidelines
 
-When contributing, please adhere to the guidelines found in the following document: [Contributing Guidelines](CONTRIBUTING).
+When contributing, please adhere to the guidelines found in the following document: [Contributing Guidelines](./CONTRIBUTING.md).
 
 ## Sources 
 
@@ -85,4 +85,4 @@ When contributing, please adhere to the guidelines found in the following docume
 - [SOLID-principles](https://www.youtube.com/watch?v=kF7rQmSRlq0)
 - [SOLID-principles](https://www.youtube.com/watch?v=eS3ny8mPn2c&list=PLcRSafycjWFfaHAnpFudWYRl7dK9w2nud)
 ### Research Sources
-- [Research Sources](./Docs/Research)
+- [Research Sources](./Docs/Research.md)

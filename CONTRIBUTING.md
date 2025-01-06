@@ -35,7 +35,7 @@ git push origin feature/your-feature-name
 ---
 
 ## Code of Conduct
-By contributing to this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md). Please make sure to read it before participating.
+By contributing to this project, you agree to abide by our [Code of Conduct](./CODE_OF_CONDUCT.md). Please make sure to read it before participating.
 
 ---
 
@@ -67,7 +67,7 @@ Reference issues or pull requests where relevant (e.g., Fixes #123).
 ## Coding Standards
 Please ensure your code meets the following standards:
 
-- Use clear and consistent [naming conventions](./Docs/Conventions).
+- Use clear and consistent [naming conventions](./Docs/Conventions.md).
 - Write comments for complex or non-obvious code.
 - Format your code properly and remove unnecessary files or debug statements.
 - Test your changes thoroughly before submitting.
