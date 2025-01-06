@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "436152455814",
+    "firebase_url": "https://parkourgamedev5-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "parkourgamedev5",
+    "storage_bucket": "parkourgamedev5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:436152455814:android:9d88c489a8c7eeca5b7707",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.ParkourGameDevV"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGqehce0s86Cj57MrnJGAkGBPQZO2iqq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
